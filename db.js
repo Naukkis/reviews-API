@@ -8,7 +8,7 @@ var options = {
 monitor.attach(options, ['query', 'error']);
 
 var pgp = require('pg-promise')(options);
-var connectionString = DATABASE_URL;
+var connectionString = process.env.DATABASE_URL;
 var db = pgp(connectionString);
 
 module.exports = db;

@@ -1,3 +1,7 @@
+require('dotenv').config();
+const q = require('./queries');
+
+console.log(process.env.DATABASE_URL)
 if (process.env.NODE_ENV !== 'production') {
     require('dotenv').load();
 }
@@ -21,6 +25,10 @@ app.get('/reviews/', (req, res) => {
     console.log("oujeaa");
     res.status(200);
 });
+
+app.get('/artist/:name', q.getArtist);
+app.get('/album/:name', q.getAlbum);
+app.get('/latest/', q.getLatest);
 
 app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, 'public/index.html'))
