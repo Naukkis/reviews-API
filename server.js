@@ -29,6 +29,8 @@ app.get('/reviews/', (req, res) => {
 app.get('/artist/:name', q.getArtist);
 app.get('/album/:name', q.getAlbum);
 app.get('/latest/', q.getLatest);
+app.get('/reviewer/:name', q.getReviewer);
+app.post('/save-review/', q.saveReview);
 
 app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, 'public/index.html'))

@@ -1,4 +1,5 @@
 const db = require('./db');
+const uuid = require('uuid/v4');
 
 function getArtist(req, res, next) {
   db.one('select * \
@@ -79,10 +80,55 @@ function getLatest(req, res, next) {
     });
 }
 
+function getReviewer(req, res, next) {
+  db.any('select timestamp, r.id, r.text, al.name as album_name, ar.name as artist_name from review as r \
+          join album as al on al.id = r.album \
+          join artist as ar on ar.id = r.artist \
+          where r.reviewer = $1\
+          order by timestamp desc', [req.params.name])
+    .then(function(data) {
+      res.status(200)
+        .json({
+          status: 'success',
+          data: data,
+          received_at: new Date(),
+          message: 'Retrieved latest reviews'
+        });
+    })
+    .catch(function(err) {
+      return next(err);
+    });
+}
+
+function saveReview(req, res, next) {
+  db.none('insert into review values($1, $2, $3, $4, $5, $6)',
+  [
+    uuid(),
+    req.body.text,
+    req.body.album,
+    req.body.artist,
+    new Date(),
+    req.body.reviewer
+  ])
+  .then(function() {
+    res.status(200)
+      .json({
+        status: 'success',
+        received_at: new Date(),
+        message: 'new review saved'
+      });
+  })
+  .catch(function(err) {
+    return next(err);
+  });
+}
+
 module.exports = {
   getArtist,
   getAlbum,
   getLatest,
+  getReviewer,
+  saveReview,
 }
 
 
