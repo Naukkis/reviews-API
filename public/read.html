@@ -1,134 +1,104 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <title>Levyarkistohakemisto</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
 <style>
-* {
-    box-sizing: border-box;
+input[readonly].form-control{
+    background-color:transparent;
+    border: 1;
+    font-size: 1em;
 }
-.row::after {
-    content: "";
-    clear: both;
-    display: table;
+textarea[readonly].form-control{
+    background-color:transparent;
+    border: 1;
+    font-size: 1em;
 }
-[class*="col-"] {
-    float: left;
-    padding: 15px;
-}
-.col-1 {width: 8.33%;}
-.col-2 {width: 16.66%;}
-.col-3 {width: 25%;}
-.col-4 {width: 33.33%;}
-.col-5 {width: 41.66%;}
-.col-6 {width: 50%;}
-.col-7 {width: 58.33%;}
-.col-8 {width: 66.66%;}
-.col-9 {width: 75%;}
-.col-10 {width: 83.33%;}
-.col-11 {width: 91.66%;}
-.col-12 {width: 100%;}
-html {
-    font-family: "Lucida Sans", sans-serif;
-}
-.header {
-    background-color: grey;
-    color: #ffffff;
-    padding: 15px;
-}
-.menu ul {
-    list-style-type: none;
-    margin: 0;
-    padding: 0;
-}
-.menu li {
-    padding: 8px;
-    margin-bottom: 7px;
-    background-color: grey;
-    color: #ffffff;
-    box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
-}
-.menu li:hover {
-    background-color: #0099cc;
-}
-input[type=text], select, textarea {
-    width: 100%;
-    padding: 12px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    resize: vertical;
-}
-label {
-    padding: 12px 12px 12px 0;
-    display: inline-block;
-}
-
-input[type=submit] {
-    background-color: #4CAF50;
-    color: white;
-    padding: 12px 20px;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    float: right;
-}
-
-input[type=submit]:hover {
-    background-color: #45a049;
-}
-
-.container {
-    border-radius: 5px;
-    background-color: #f2f2f2;
-    padding: 20px;
-}
-
-.col-25 {
-    float: left;
-    width: 25%;
-    margin-top: 6px;
-}
-
-.col-75 {
-    float: left;
-    width: 75%;
-    margin-top: 6px;
-}
-
-.row:after {
-    content: "";
-    display: table;
-    clear: both;
-}
-
 </style>
 </head>
 <body>
-
-<div class="header">
-  <h1>Levyarkistohakemisto</h1>
-</div>
-
-<div class="row">
-    <div class="col-12 menu">
-    <ul>
-        <li href="read.html">Hae Arvosteluja</li>
-    </ul>
-    </div>
-
-    <div class="col-12">
-    <h1>Lue Arvosteluja</h1>
-    <p>Aloita haku kirjoittamalla artistin nimi, jonka arvoteluja haluat lukea.</p>
-    <div class="col-12">
-            <form class="example" action="/action_page.php">
-                <input type="text" placeholder="Search.." name="search">
-                <button type="submit"><i class="fa fa-search"></i></button>
+    <header>
+        <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+            <a class="navbar-brand" href="index.html">Levyarkistohakemisto</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item active">
+                <a class="nav-link" href="index.html">Koti <span class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item">
+                <a class="nav-link" href="read.html">Lue arvosteluja</a>
+                </li>
+            </ul>
+            <form class="form-inline mt-2 mt-md-0" onsubmit="">
+                <input class="form-control mr-sm-2" type="text" placeholder="Hae..." aria-label="Search">
+                <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Hae</button>
             </form>
-        </div> 
-    </div>
-</div>
-<script>
-
-</script>
+            </div>
+        </nav>
+    </header>
+    <main role="main">
+        <div class="container" style="margin-top:90px">
+            <div class="row">
+                <div class="col-sm-12">
+                    <h2>Levyarkistohakemisto</h2>
+                    <hr>
+                    <br>
+                    <h4>Lue lempi artistisi ja heidän albuminsa arvosteluja</h4>
+                    <p>Aloita syöttämällä hakukenttään kirjoittamalla artistin/bändin tai albumin nimi.</p>
+                    <br>
+                    <hr>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-12">
+                    <form onsubmit="">
+                        <div class="form-group row">
+                            <div class="col-sm-11">
+                                <input class="form-control" type="text" placeholder="Hae..." aria-label="Search">
+                            </div>
+                            <div class="col-sm-1">
+                                <button class="btn btn-outline-success" type="submit">Hae</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="row">
+                <div class="container">
+                    <div class="col-sm-12">
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <br>
+                                <form>
+                                    <div class="form-group">
+                                        <label for="artisti">Artistin nimi:</label>
+                                        <input type="text" class="form-control" id="artisti" readonly>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="artisti">Albumin nimi:</label>
+                                        <input type="text" class="form-control" id="albumi" readonly>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="arvostelu">Arvostelu:</label>
+                                        <textarea class="form-control" rows="10" id="arvostelu" readonly></textarea>
+                                    </div>
+                                </form>
+                                <br>                 
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>            
+    </main>
+</body>
 </body>
 </html>
