@@ -33,51 +33,57 @@
         </nav>
     </header>
     <main role="main">
-            <div class="container" style="margin-top:90px">
-                <div class="row">
-                    <div class="col-sm-12">
-                        <h2>Levyarkistohakemisto</h2>
-                        <hr>
-                        <br>
-                        <h4>Arvostele lempi artistisi ja heidän albuminsa</h4>
-                        <p>Aloita syöttämällä artistin/bändin nimi, albumin nimi, sekä syöttämällä arvostelusi sille varattuun kenttään.</p>
-                        <br>
-                        <hr>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-sm-12">
-                        <h2>Kirjoita arvostelusi tähän.</h2>
-                        <br>
-                        <form action="/save-review/" method="POST">
-                            <div class="form-group">
-                              <label for="artisti">Artistin nimi:</label>
-                                <select class="form-control" id="artisti" name="artist"></select>
-                            </div>
-                            <div class="form-group">
-                              <label for="artisti">Albumin nimi:</label>
-                              <select class="form-control" id="albumi" name="album"></select>
-                            </div>
-                            <div class="form-group">
-                                <label for="arvostelu">Arvostelu:</label>
-                                <textarea class="form-control" rows="8" id="arvostelu" name="text"></textarea>
-                            </div>
-                            <div class="form-group">
-                                <label for="usrName">Oma käyttäjänimesi:</label>
-                                <input type="text" class="form-control" id="reviewer" name="reviewer">
-                            </div>
-                            <div class="form-group form-check">
-                              <label class="form-check-label">
-                                <input class="form-check-input" type="checkbox"> En ole robotti...
-                              </label>
-                            </div>
-                            <button type="submit" class="btn btn-primary">Lähetä</button>
-                          </form>
-                    </div>
+        <div class="container" style="margin-top:90px">
+            <div class="row">
+                <div class="col-sm-12">
+                    <h2>Levyarkistohakemisto</h2>
+                    <hr>
+                    <br>
+                    <h4>Arvostele lempi artistisi ja heidän albuminsa</h4>
+                    <p>Aloita syöttämällä artistin/bändin nimi, albumin nimi, sekä syöttämällä arvostelusi sille varattuun kenttään.</p>
+                    <br>
+                    <hr>
                 </div>
             </div>
-                  
+            <div class="row">
+                <div class="col-sm-12">
+                    <h2>Kirjoita arvostelusi tähän.</h2>
+                    <br>
+                    <form action="/save-review/" method="POST">
+                        <div class="form-group">
+                            <label for="artisti">Artistin nimi:</label>
+                            <select class="form-control" id="artisti" name="artist"></select>
+                        </div>
+                        <div class="form-group">
+                            <label for="artisti">Albumin nimi:</label>
+                            <select class="form-control" id="albumi" name="album"></select>
+                        </div>
+                        <div class="form-group">
+                            <label for="arvostelu">Arvostelu:</label>
+                            <textarea class="form-control" rows="8" id="arvostelu" name="text"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="usrName">Oma käyttäjänimesi:</label>
+                            <input type="text" class="form-control" id="reviewer" name="reviewer">
+                        </div>
+                        <div class="form-group form-check">
+                            <label class="form-check-label">
+                            <input class="form-check-input" type="checkbox"> En ole robotti...
+                            </label>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Lähetä</button>
+                    </form>
+                </div>
+            </div>
+        </div>       
     </main>
+    <br>
+    <br>
+    <footer class="footer bg-dark">
+        <div class="container">
+            <span class="text-muted">Levyarkistohakemisto</span>
+        </div>
+    </footer>
 </body>
 <script>
 (function() {
@@ -88,7 +94,6 @@
 
     request1.onreadystatechange = function() {
         if (this.readyState == 4 && this.status == 200) {
-            console.log(request1.responseText)
             set_artists(JSON.parse(request1.responseText).data);
         }
     };
@@ -97,8 +102,7 @@
 
     request2.onreadystatechange = function() {
         if (this.readyState == 4 && this.status == 200) {
-            console.log(request2.responseText)
-                set_albums(JSON.parse(request2.responseText).data);
+            set_albums(JSON.parse(request2.responseText).data);
         }
     };
     request2.open("GET", url2, true);
@@ -112,7 +116,6 @@ function set_artists(arr) {
 		var option = document.createElement("option");
         var name = arr[i].name;
         var id = arr[i].id;
-        console.log(id);
 		option.text = arr[i].name;
 		option.value = [id];
 		select.add(option, 0);
