@@ -64,7 +64,7 @@
                             </div>
                             <div class="form-group">
                                 <label for="usrName">Oma käyttäjänimesi:</label>
-                                <input type="text" class="form-control" id="albumi" name="reviewer">
+                                <input type="text" class="form-control" id="reviewer" name="reviewer">
                             </div>
                             <div class="form-group form-check">
                               <label class="form-check-label">
@@ -110,9 +110,11 @@ function set_artists(arr) {
 	console.log(arr);
 	for(i = 0; i < arr.length; i++) {
 		var option = document.createElement("option");
-		var name = arr[i].name;
+        var name = arr[i].name;
+        var id = arr[i].id;
+        console.log(id);
 		option.text = arr[i].name;
-		option.value = [name];
+		option.value = [id];
 		select.add(option, 0);
 	}
 }
@@ -122,9 +124,10 @@ function set_albums(arr) {
 	console.log(arr);
 	for(i = 0; i < arr.length; i++) {
 		var option = document.createElement("option");
-		var name = arr[i].name;
+        var name = arr[i].name;
+        var id = arr[i].id;
 		option.text = arr[i].name;
-		option.value = [name];
+		option.value = [id];
 		select.add(option, 0);
 	}
 }
