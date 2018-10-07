@@ -80,6 +80,38 @@ function getLatest(req, res, next) {
     });
 }
 
+function getAlbums(req, res, next) {
+  db.any('select * from album')
+    .then(function(data) {
+      res.status(200)
+        .json({
+          status: 'success',
+          data: data,
+          received_at: new Date(),
+          message: 'Retrieved all albums'
+        });
+    })
+    .catch(function(err) {
+      return next(err);
+    });
+}
+
+function getArtists(req, res, next) {
+  db.any('select * from artist')
+    .then(function(data) {
+      res.status(200)
+        .json({
+          status: 'success',
+          data: data,
+          received_at: new Date(),
+          message: 'Retrieved all artists'
+        });
+    })
+    .catch(function(err) {
+      return next(err);
+    });
+}
+
 function getReviewer(req, res, next) {
   db.any('select timestamp, r.id, r.text, al.name as album_name, ar.name as artist_name from review as r \
           join album as al on al.id = r.album \
@@ -129,6 +161,8 @@ module.exports = {
   getLatest,
   getReviewer,
   saveReview,
+  getAlbums,
+  getArtists,
 }
 
 

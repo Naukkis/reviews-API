@@ -26,6 +26,8 @@ app.get('/reviews/', (req, res) => {
     res.status(200);
 });
 
+app.get('/artists/', q.getArtists);
+app.get('/albums/', q.getAlbums);
 app.get('/artist/:name', q.getArtist);
 app.get('/album/:name', q.getAlbum);
 app.get('/latest/', q.getLatest);
