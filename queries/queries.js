@@ -1,4 +1,4 @@
-const db = require('./db');
+const db = require('../db');
 const uuid = require('uuid/v4');
 
 function getArtist(req, res, next) {
@@ -163,6 +163,6 @@ module.exports = {
   saveReview,
   getAlbums,
   getArtists,
-}
+};
 
 
