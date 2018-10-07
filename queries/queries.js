@@ -143,7 +143,7 @@ function saveReview(req, res, next) {
     req.body.reviewer
   ])
   .then(function() {
-    res.status(200)
+    res.status(201)
       .json({
         status: 'success',
         received_at: new Date(),
@@ -155,6 +155,37 @@ function saveReview(req, res, next) {
   });
 }
 
+function findBetween(req, res, next) {
+    let start = formatDate(req.params.start);
+    let end = formatDate(req.params.end);
+
+    db.any('select timestamp, r.id, r.text, al.name as album_name, ar.name as artist_name from review as r \
+          join album as al on al.id = r.album \
+          join artist as ar on ar.id = r.artist \
+          where timestamp between $1 and $2 \
+          order by timestamp desc', [start, end])
+        .then(function(data) {
+            res.status(200)
+                .json({
+                    status: 'success',
+                    reviews: data,
+                    received_at: new Date(),
+                    message: ''
+                });
+        })
+        .catch(function(err) {
+            return next(err);
+        });
+}
+
+// format 20181224 to 2018-12-24
+function formatDate(date){
+    let formattedDate = date.slice(0,4);
+    formattedDate += "-" + date.slice(4,6);
+    formattedDate += "-" + date.slice(6,8);
+    return formattedDate;
+}
+
 module.exports = {
   getArtist,
   getAlbum,
@@ -163,6 +194,7 @@ module.exports = {
   saveReview,
   getAlbums,
   getArtists,
+  findBetween
 };
 
 

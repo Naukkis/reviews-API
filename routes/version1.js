@@ -9,6 +9,7 @@ router.get('/artist/:name', q.getArtist);
 router.get('/album/:name', q.getAlbum);
 router.get('/latest/', q.getLatest);
 router.get('/reviewer/:name', q.getReviewer);
+router.get('/reviews/:start-:end', q.findBetween);
 router.post('/save-review/', q.saveReview);
 
 module.exports = router;
