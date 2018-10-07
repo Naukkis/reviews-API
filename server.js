@@ -17,6 +17,12 @@ app.set('port', process.env.PORT || 3002);
 
 app.use(express.static('public'));
 
+app.use(function(req, res, next) { 
+    res.header("Access-Control-Allow-Origin", "*"); 
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept"); 
+    next(); 
+})
+
 app.get('/reviews/', (req, res) => {
     console.log("oujeaa");
     res.status(200);

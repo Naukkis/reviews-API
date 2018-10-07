@@ -49,18 +49,22 @@
                     <div class="col-sm-12">
                         <h2>Kirjoita arvostelusi tähän.</h2>
                         <br>
-                        <form onsubmit="">
+                        <form action="/save-review/" method="POST">
                             <div class="form-group">
                               <label for="artisti">Artistin nimi:</label>
-                              <input type="text" class="form-control" id="artisti">
+                                <select class="form-control" id="artisti" name="artist"></select>
                             </div>
                             <div class="form-group">
                               <label for="artisti">Albumin nimi:</label>
-                              <input type="text" class="form-control" id="albumi">
+                              <select class="form-control" id="albumi" name="album"></select>
                             </div>
                             <div class="form-group">
                                 <label for="arvostelu">Arvostelu:</label>
-                                <textarea class="form-control" rows="8" id="arvostelu"></textarea>
+                                <textarea class="form-control" rows="8" id="arvostelu" name="text"></textarea>
+                            </div>
+                            <div class="form-group">
+                                <label for="usrName">Oma käyttäjänimesi:</label>
+                                <input type="text" class="form-control" id="albumi" name="reviewer">
                             </div>
                             <div class="form-group form-check">
                               <label class="form-check-label">
@@ -76,6 +80,54 @@
     </main>
 </body>
 <script>
+(function() {
+    var request1 = new XMLHttpRequest();
+    var request2 = new XMLHttpRequest();
+    var url = "http://localhost:3002/artists/";
+    var url2 = "http://localhost:3002/albums/";
+
+    request1.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) {
+            console.log(request1.responseText)
+            set_artists(JSON.parse(request1.responseText).data);
+        }
+    };
+    request1.open("GET", url, true);
+    request1.send();
+
+    request2.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) {
+            console.log(request2.responseText)
+                set_albums(JSON.parse(request2.responseText).data);
+        }
+    };
+    request2.open("GET", url2, true);
+    request2.send();
+})();
+
+function set_artists(arr) {
+	var select = document.getElementById("artisti");
+	console.log(arr);
+	for(i = 0; i < arr.length; i++) {
+		var option = document.createElement("option");
+		var name = arr[i].name;
+		option.text = arr[i].name;
+		option.value = [name];
+		select.add(option, 0);
+	}
+}
+
+function set_albums(arr) {
+	var select = document.getElementById("albumi");
+	console.log(arr);
+	for(i = 0; i < arr.length; i++) {
+		var option = document.createElement("option");
+		var name = arr[i].name;
+		option.text = arr[i].name;
+		option.value = [name];
+		select.add(option, 0);
+	}
+}
 </script>
 </body>
 </html>

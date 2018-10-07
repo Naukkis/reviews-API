@@ -15,14 +15,14 @@
 <body class="text-center">  
     <main role="main">
         <div class="container" style="margin-top:90px">             
-            <form>
+            <form action="/user_create" method="POST">
                 <h1 class="h3 mb-3 font-weight-normal">Luo käyttäjätunnus</h1>
                 <br>
                 <label for="käyttäjätunnus" class="sr-only">Käyttäjätunnus</label>
-                <input type="text" id="käyttäjätunnus" class="form-control" placeholder="Syötä haluamasi käyttäjätunnus..." required autofocus>
+                <input type="text" id="käyttäjätunnus" class="form-control" placeholder="Syötä haluamasi käyttäjätunnus..." name="create_userName" required autofocus>
                 <br>
                 <label for="psw" class="sr-only">Salasana</label>
-                <input type="password" id="psw" class="form-control" placeholder="Syötä salasana uudelle tilillesi..." required>
+                <input type="password" id="psw" class="form-control" placeholder="Syötä salasana uudelle tilillesi..." name="create_psw" required>
                 <br>
                 <a class="mt-5 mb-3 text-muted" href="login.html">Kirjaudu sisään...</a>
                 <br>
