@@ -1,7 +1,3 @@
-require('dotenv').config();
-const q = require('./queries');
-
-console.log(process.env.DATABASE_URL)
 if (process.env.NODE_ENV !== 'production') {
     require('dotenv').load();
 }
@@ -9,7 +5,7 @@ if (process.env.NODE_ENV !== 'production') {
 const express     = require('express');
 const path        = require('path');
 const bodyParser  = require('body-parser');
-
+const q = require('./queries');
 const app = express();
 
 app.use(bodyParser.json());
