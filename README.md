@@ -2,12 +2,12 @@
 
 API:
 
-| url        | parameters           |
-| ------------- |:-------------:|
-| /auth/register      | username, password |
-| /artists/         | Optional: name                    |
-| /albums/          | Optional: name                    |
-| /latest/          |                                   |
-| /reviewer/        | name                              |
-| /reviews/between/ | start, end                        |
-| /save-review/     | text, album, artist, token        |
+| method        | url           | parameters  |
+| ------------- |:-------------:| -----:|
+|POST      | /auth/register     | username, password       |
+|GET       | /artists/         | Optional: name             |
+|GET       | /albums/          | Optional: name             |
+|GET       | /latest/          |                            |
+|GET       | /reviewer/        | name                       |
+|GET       | /reviews/between/ | start, end                 |
+|POST      | /save-review/     | text, album, artist, token |
