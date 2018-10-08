@@ -8,6 +8,6 @@ API:
 | /artists/         | Optional: name                    |
 | /albums/          | Optional: name                    |
 | /latest/          |                                   |
-| /reviewer/:name   | name                              |
+| /reviewer/        | name                              |
 | /reviews/between/ | start, end                        |
 | /save-review/     | text, album, artist, token        |
