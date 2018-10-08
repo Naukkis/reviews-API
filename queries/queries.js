@@ -1,5 +1,6 @@
 const db = require('../db');
 const uuid = require('uuid/v4');
+const utils = require('../utils/utils');
 
 function getArtist(req, res, next) {
   db.one('select * \
@@ -156,8 +157,17 @@ function saveReview(req, res, next) {
 }
 
 function findBetween(req, res, next) {
-    let start = formatDate(req.params.start);
-    let end = formatDate(req.params.end);
+    if (req.params.start.length != 8){
+        errorResponse(res, req.params.start);
+        return;
+    }
+    if(req.params.end.length != 8){
+        errorResponse(res, req.params.end);
+        return;
+    }
+    // format 20181224 to 2018-12-24
+    let start = utils.formatDate(req.params.start);
+    let end = utils.formatDate(req.params.end);
 
     db.any('select timestamp, r.id, r.text, al.name as album_name, ar.name as artist_name from review as r \
           join album as al on al.id = r.album \
@@ -178,12 +188,58 @@ function findBetween(req, res, next) {
         });
 }
 
-// format 20181224 to 2018-12-24
-function formatDate(date){
-    let formattedDate = date.slice(0,4);
-    formattedDate += "-" + date.slice(4,6);
-    formattedDate += "-" + date.slice(6,8);
-    return formattedDate;
+function findBetweenFromReviewer(req, res, next) {
+    const MAGIC_MAX_INTEGER = 50;
+    if (invalidParametersLength(res, req.query.reviewer, MAGIC_MAX_INTEGER)
+        || invalidDateParam(res, req.query.dates)) {
+        return;
+    }
+
+    let reviewer = req.query.reviewer;
+    let startDate = utils.formatDate(req.query.dates.slice(0,8));
+    let endDate = utils.formatDate(req.query.dates.slice(9,17));
+    db.any('select timestamp, r.id, r.text, al.name as album_name, ar.name as artist_name from review as r \
+          join album as al on al.id = r.album \
+          join artist as ar on ar.id = r.artist \
+          where timestamp between $1 and $2 \
+          and r.reviewer = $3 \
+          order by timestamp desc', [startDate, endDate, reviewer])
+        .then(function(data) {
+            res.status(200)
+                .json({
+                    status: 'success',
+                    reviews: data,
+                    received_at: new Date(),
+                    message: ''
+                });
+        })
+        .catch(function(err) {
+            return next(err);
+        });
+}
+
+function invalidParametersLength(res, param, maxLength) {
+    if(param.length < 1 || param.length > maxLength) {
+        errorResponse(res, param);
+        return true;
+    }
+    return false;
+}
+
+function invalidDateParam(res, date) {
+    if (date.length != 17){
+        errorResponse(res, date);
+        return true;
+    }
+    return false;
+}
+
+function errorResponse(res, param) {
+    return res.status(400)
+        .json({
+            status: 'failure',
+            message: 'Invalid parameters: ' + param
+        })
 }
 
 module.exports = {
@@ -194,7 +250,8 @@ module.exports = {
   saveReview,
   getAlbums,
   getArtists,
-  findBetween
+  findBetween,
+    findBetweenFromReviewer
 };
 
 
