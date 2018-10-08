@@ -3,34 +3,39 @@ const uuid = require('uuid/v4');
 const utils = require('../utils/utils');
 
 function getArtist(req, res, next) {
-  db.one('select * \
+    if(req.params.name) {
+        db.one('select * \
            from artist \
            where name = $1', [req.params.name])
-    .then(function(artist) {
-      db.task('get-everything', t => {
-        return t.batch([
-            t.any('select * from album where artist = $1', [artist.id]),
-            t.any('select * from review where artist = $1', [artist.id])
-        ]);
-      })
-      .then(data => {
-        res.status(200)
-        .json({
-          status: 'success',
-          artist: artist,
-          album: data[0],
-          reviews: data[1],
-          received_at: new Date(),
-          message: 'Retrieved artist with albums'
-        });
-      })
-      .catch(error => {
-        return next(error);
-      });
-    })
-    .catch(function(err) {
-      return next(err);
-    });
+            .then(function(artist) {
+                db.task('get-everything', t => {
+                    return t.batch([
+                        t.any('select * from album where artist = $1', [artist.id]),
+                        t.any('select * from review where artist = $1', [artist.id])
+                    ]);
+                })
+                    .then(data => {
+                        res.status(200)
+                            .json({
+                                status: 'success',
+                                artist: artist,
+                                album: data[0],
+                                reviews: data[1],
+                                received_at: new Date(),
+                                message: 'Retrieved artist with albums'
+                            });
+                    })
+                    .catch(error => {
+                        return next(error);
+                    });
+            })
+            .catch(function(err) {
+                return next(err);
+            });
+    } else {
+        getArtists(req, res ,next);
+    }
+
 }
 
 function getAlbum(req, res, next) {
@@ -134,26 +139,36 @@ function getReviewer(req, res, next) {
 }
 
 function saveReview(req, res, next) {
-  db.none('insert into review values($1, $2, $3, $4, $5, $6)',
-  [
-    uuid(),
-    req.body.text,
-    req.body.album,
-    req.body.artist,
-    new Date(),
-    req.body.reviewer
-  ])
-  .then(function() {
-    res.status(201)
-      .json({
-        status: 'success',
-        received_at: new Date(),
-        message: 'new review saved'
+    console.log(req.body);
+    db.task(t => {
+        return t.oneOrNone('select username from users where token = $1', [req.body.token])
+            .then(user => {
+                console.log(user);
+                if (user) {
+                    db.none('insert into review values($1, $2, $3, $4, $5, $6)',
+                        [
+                            uuid(),
+                            req.body.text,
+                            req.body.album,
+                            req.body.artist,
+                            new Date(),
+                            user.username
+                        ])
+                }
+                return [];
+            });
+    })
+      .then(function() {
+        res.status(201)
+          .json({
+            status: 'success',
+            received_at: new Date(),
+            message: 'new review saved'
+          });
+      })
+      .catch(function(err) {
+        return next(err);
       });
-  })
-  .catch(function(err) {
-    return next(err);
-  });
 }
 
 function findBetween(req, res, next) {

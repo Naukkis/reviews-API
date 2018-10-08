@@ -49,7 +49,7 @@
                 <div class="col-sm-12">
                     <h2>Kirjoita arvostelusi tähän.</h2>
                     <br>
-                    <form action="/save-review/" method="POST">
+                    <form action="v1/save-review/" method="POST">
                         <div class="form-group">
                             <label for="artisti">Artistin nimi:</label>
                             <select class="form-control" id="artisti" name="artist"></select>
@@ -63,8 +63,8 @@
                             <textarea class="form-control" rows="8" id="arvostelu" name="text"></textarea>
                         </div>
                         <div class="form-group">
-                            <label for="usrName">Oma käyttäjänimesi:</label>
-                            <input type="text" class="form-control" id="reviewer" name="reviewer">
+                            <label for="token">API-token</label>
+                            <input type="text" class="form-control" id="token" name="token">
                         </div>
                         <div class="form-group form-check">
                             <label class="form-check-label">

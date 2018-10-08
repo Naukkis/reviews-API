@@ -7,15 +7,22 @@ function registerUser(req, res, next) {
     if (!req.body.password || !req.body.username) {
         return next(new Error("Invalid input!"));
     }
-
+    let user = {
+        username: req.body.username,
+        password: req.body.password
+    }
+    let token = jwt.sign({ data: user }, process.env.SECRET_KEY, {
+        expiresIn: 60 * 60 * 24 * 30
+    });
     const psw = bcrypt.hashSync(req.body.password, salt);
     db
         .none(
-            "insert into users(username, password)" +
-            "values($1, $2)",
+            "insert into users(username, password, token)" +
+            "values($1, $2, $3)",
             [
                 req.body.username,
                 psw,
+                token
             ]
         )
         .then(function() {
@@ -23,7 +30,8 @@ function registerUser(req, res, next) {
                 status: "success",
                 created_at: new Date(),
                 message: "created new user",
-                user: req.body.username
+                user: req.body.username,
+                apiToken: token
             });
         })
         .catch(err => next(err));
