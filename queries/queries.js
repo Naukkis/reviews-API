@@ -62,6 +62,22 @@ function getAlbum(req, res, next) {
     });
 }
 
+function getAlbumById(req, res, next) {
+    db.any('select * from album where artist = $1', req.params.id)
+        .then(function(data) {
+            res.status(200)
+                .json({
+                    status: 'success',
+                    data: data,
+                    received_at: new Date(),
+                    message: 'Retrieved all albums'
+                });
+        })
+        .catch(function(err) {
+            return next(err);
+        });
+}
+
 function getLatest(req, res, next) {
   db.any('select timestamp, r.id, r.text, al.name as album_name, ar.name as artist_name from review as r \
           join album as al on al.id = r.album \
@@ -227,6 +243,34 @@ function findBetweenFromReviewer(req, res, next) {
         });
 }
 
+function deleteReview(req, res, next) {
+    let apiToken = req.body.apiToken;
+    let reviewId = req.params.reviewid;
+
+    db.task(t => {
+        return t.any('select username from users where token = $1', apiToken)
+            .then(user => {
+
+                if(user.length > 0) {
+                    return t.any('delete from review where reviewer = $1 and id = $2', [user[0].username,  reviewId])
+                } else {
+                    errorResponse(res, apiToken);
+                    return;
+                }
+            });
+    })
+        .then(events => {
+            console.log(events);
+            res.status(200).json({
+                reviewid: reviewId,
+                message: "review deleted"
+            })
+        })
+        .catch(error => {
+            next(error);
+        })
+}
+
 function invalidParametersLength(res, param, maxLength) {
     if(param.length < 1 || param.length > maxLength) {
         errorResponse(res, param);
@@ -254,13 +298,15 @@ function errorResponse(res, param) {
 module.exports = {
   getArtist,
   getAlbum,
+  getAlbumById,
   getLatest,
   getReviewer,
   saveReview,
   getAlbums,
   getArtists,
   findBetween,
-    findBetweenFromReviewer
+  findBetweenFromReviewer,
+  deleteReview
 };
 
 
