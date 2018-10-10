@@ -59,10 +59,20 @@ textarea[readonly].form-control{
             </div>
             <div class="row">
                 <div class="col-sm-12">
-                    <form action="/latest/" method="GET">
+                    <form action="v1/artists/" method="GET">
                         <div class="form-group row">
                             <div class="col-sm-11">
-                                <input class="form-control" type="text" placeholder="Hae..." name="getArtist" aria-label="Search">
+                                <input class="form-control" type="text" placeholder="Hae artistia..." name="getArtist" aria-label="Search">
+                            </div>
+                            <div class="col-sm-1">
+                                <button class="btn btn-outline-success" type="submit">Hae</button>
+                            </div>
+                        </div>
+                    </form>
+                    <form action="v1/albums/" method="GET">
+                        <div class="form-group row">
+                            <div class="col-sm-11">
+                                <input class="form-control" type="text" placeholder="Hae albumia..." name="getAlbum" aria-label="Search">
                             </div>
                             <div class="col-sm-1">
                                 <button class="btn btn-outline-success" type="submit">Hae</button>
