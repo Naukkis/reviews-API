@@ -3,9 +3,11 @@ const uuid = require('uuid/v4');
 const utils = require('../utils/utils');
 
 function getArtist(req, res, next) {
+    console.log(req.params.getArtist);
+    let artistName = req.params.name || req.query.getArtist;
   db.one('select * \
            from artist \
-           where name = $1', [req.params.name])
+           where name = $1', [artistName])
     .then(function(artist) {
       db.task('get-everything', t => {
         return t.batch([
@@ -114,19 +116,23 @@ function getAlbums(req, res, next) {
 }
 
 function getArtists(req, res, next) {
-  db.any('select * from artist')
-    .then(function(data) {
-      res.status(200)
-        .json({
-          status: 'success',
-          data: data,
-          received_at: new Date(),
-          message: 'Retrieved all artists'
-        });
-    })
-    .catch(function(err) {
-      return next(err);
-    });
+    if (req.query.getArtist.length > 0) {
+        getArtist(req, res, next);
+    }else {
+        db.any('select * from artist')
+            .then(function(data) {
+                res.status(200)
+                    .json({
+                        status: 'success',
+                        data: data,
+                        received_at: new Date(),
+                        message: 'Retrieved all artists'
+                    });
+            })
+            .catch(function(err) {
+                return next(err);
+            });
+    }
 }
 
 function getReviewer(req, res, next) {
