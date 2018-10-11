@@ -11,3 +11,4 @@ API:
 |GET       | /reviewer/        | name                       |
 |GET       | /reviews/between/ | start, end                 |
 |POST      | /save-review/     | text, album, artist, token |
+|DELETE    | /reviews/         | reviewID, token            |
