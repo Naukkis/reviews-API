@@ -1,10 +1,10 @@
 if (process.env.NODE_ENV !== 'production') {
     require('dotenv').load();
 }
+
 const express     = require('express');
 const path        = require('path');
 const bodyParser  = require('body-parser');
-
 
 const auth = require('./routes/authentication');
 const version1 = require('./routes/version1');
@@ -26,7 +26,10 @@ app.use(function(req, res, next) {
     next(); 
 });
 
+// version number
 app.use('/v1', version1);
+
+// registration and login
 app.use('/auth', auth);
 
 app.get('/', (req, res) => {

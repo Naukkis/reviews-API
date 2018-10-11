@@ -4,6 +4,7 @@ const jwt = require("jsonwebtoken");
 
 const router = express.Router();
 
+// require apitoken for saving review
 router.use('/save-review', function(req, res, next) {
     var token = req.body.token || req.headers['token'];
     if(token) {
@@ -21,6 +22,7 @@ router.use('/save-review', function(req, res, next) {
 
 router.get('/artists/', q.getArtists);
 router.get('/albums/', q.getAlbums);
+router.get('/artists/client/', q.getArtist);
 router.get('/artists/:name', q.getArtist);
 router.get('/albums/:name', q.getAlbum);
 router.get('/albums/id/:id', q.getAlbumById);

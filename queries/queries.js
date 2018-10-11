@@ -2,9 +2,10 @@ const db = require('../db');
 const uuid = require('uuid/v4');
 const utils = require('../utils/utils');
 
+// get artist by id
 function getArtist(req, res, next) {
-    console.log(req.params.getArtist);
     let artistName = req.params.name || req.query.getArtist;
+    console.log(artistName);
   db.one('select * \
            from artist \
            where name = $1', [artistName])
@@ -35,6 +36,7 @@ function getArtist(req, res, next) {
     });
 }
 
+// get album by name
 function getAlbum(req, res, next) {
   db.one('select * from album where name = $1', [req.params.name])
     .then(function(album) {
@@ -64,6 +66,7 @@ function getAlbum(req, res, next) {
     });
 }
 
+// get album by Id
 function getAlbumById(req, res, next) {
     db.any('select * from album where artist = $1', req.params.id)
         .then(function(data) {
@@ -80,6 +83,7 @@ function getAlbumById(req, res, next) {
         });
 }
 
+// get all reviews ordered by date
 function getLatest(req, res, next) {
   db.any('select timestamp, r.id, r.text, al.name as album_name, ar.name as artist_name from review as r \
           join album as al on al.id = r.album \
@@ -116,9 +120,10 @@ function getAlbums(req, res, next) {
 }
 
 function getArtists(req, res, next) {
-    if (req.query.getArtist.length > 0) {
+    console.log(req.query);
+    if (req.query.getArtist != null) {
         getArtist(req, res, next);
-    }else {
+    }
         db.any('select * from artist')
             .then(function(data) {
                 res.status(200)
@@ -132,7 +137,6 @@ function getArtists(req, res, next) {
             .catch(function(err) {
                 return next(err);
             });
-    }
 }
 
 function getReviewer(req, res, next) {
@@ -147,7 +151,7 @@ function getReviewer(req, res, next) {
           status: 'success',
           data: data,
           received_at: new Date(),
-          message: 'Retrieved latest reviews'
+          message: 'Retrieved user reviews from: ' + req.params.name
         });
     })
     .catch(function(err) {
